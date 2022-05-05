@@ -33,3 +33,15 @@ function operate (a, b, operation) {
       return
   };
 }
+
+function displayController (event) {
+  console.log(event.target);
+}
+
+const display = document.querySelector("#display p");
+const buttonList = document.querySelectorAll('button');
+// console.log(buttonList);
+
+buttonList.forEach( button => {
+  button.addEventListener('click', e => displayController(e));
+});
