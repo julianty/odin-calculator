@@ -44,7 +44,12 @@ function appendText (displayText, buttonText) {
     displayText = buttonText;
   } 
   else {
-    displayText = displayText + buttonText;
+    if (buffer != null && lastKeyClass == "operator") {
+      displayText = buttonText;
+    } else {
+      displayText = displayText + buttonText;
+    }
+    console.log(buffer, lastKeyClass);
   }
 
 
@@ -63,33 +68,32 @@ function displayController (event) {
   if (buttonClass == "operator") {
     // Checks for '='
     // There must be a number in the buffer
-    if (bufferAssigned == true && buttonText == "=") {
+    if (buffer != null) {
       displayText = operate(buffer, parseFloat(displayText), operatorBuffer);
+      buffer = displayText;
     }
     else {
       buffer = parseFloat(displayText);
       operatorBuffer = buttonText;
-      displayText = 0;
-      bufferAssigned = true;
     }
   }
 
   if (buttonClass == "clear") {
     displayText = "0";
-    buffer = 0;
-    bufferAssigned = false;
+    buffer = null;
     operatorBuffer = null;
   }
   display.textContent = displayText;
+  lastKeyClass = buttonClass;
 }
 
 
 
 const display = document.querySelector("#display p");
 const buttonList = document.querySelectorAll('button');
-let buffer = 0;
-let bufferAssigned = false;
+let buffer = null;
 let operatorBuffer = null;
+let lastKeyClass;
 // console.log(buttonList);
 
 buttonList.forEach( button => {
