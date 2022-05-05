@@ -68,17 +68,22 @@ function displayController (event) {
   }
 
   if (buttonClass == "operator") {
-    // Checks for '='
     // There must be a number in the buffer
     if (buffer != null) {
       displayText = operate(buffer, parseFloat(displayText), operatorBuffer);
       displayText = Math.round(displayText*1e9)/1e9;
       buffer = displayText;
-      operatorBuffer = buttonText;
+      // Keep old operator if '=' was pressed
+      if (buttonText != "=") {
+        operatorBuffer = buttonText;
+      }
     }
     else {
-      buffer = parseFloat(displayText);
-      operatorBuffer = buttonText;
+      // Avoids premature '=' keypresses
+      if (buttonText != "=") {
+        buffer = parseFloat(displayText);
+        operatorBuffer = buttonText;
+      }
     }
   }
 
