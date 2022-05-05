@@ -49,7 +49,6 @@ function appendText (displayText, buttonText) {
     } else {
       displayText = displayText + buttonText;
     }
-    console.log(buffer, lastKeyClass);
   }
 
 
@@ -71,6 +70,7 @@ function displayController (event) {
     if (buffer != null) {
       displayText = operate(buffer, parseFloat(displayText), operatorBuffer);
       buffer = displayText;
+      operatorBuffer = buttonText;
     }
     else {
       buffer = parseFloat(displayText);
