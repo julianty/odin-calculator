@@ -72,10 +72,10 @@ function displayController (event) {
     if (buffer != null) {
       displayText = operate(buffer, parseFloat(displayText), operatorBuffer);
       displayText = Math.round(displayText*1e9)/1e9;
-      buffer = displayText;
-      // Keep old operator if '=' was pressed
+      // Keep old operator and buffer if '=' was pressed
       if (buttonText != "=") {
         operatorBuffer = buttonText;
+        buffer = displayText;
       }
     }
     else {
@@ -86,6 +86,19 @@ function displayController (event) {
       }
     }
   }
+  if (buttonClass == "equals") {
+    if (buffer != null) {
+
+      lastOperand = lastKeyClass == "numpad" ? 
+          parseFloat(displayText) : lastOperand;
+
+      displayText = operate(buffer, lastOperand, operatorBuffer);
+      displayText = Math.round(displayText*1e9)/1e9;
+      buffer = displayText;
+      console.log(buffer, lastOperand);
+    }
+  }
+
 
   if (buttonClass == "clear") {
     displayText = "0";
@@ -103,6 +116,7 @@ const buttonList = document.querySelectorAll('button');
 let buffer = null;
 let operatorBuffer = null;
 let lastKeyClass;
+let lastOperand;
 // console.log(buttonList);
 
 buttonList.forEach( button => {
